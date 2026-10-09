@@ -1243,6 +1243,17 @@ function App() {
 ======================================================= */
 
 async function generateQRs() {
+  alert("GENERATE FUNCTION CALLED");
+  console.log("GENERATE FUNCTION CALLED");
+
+  if (!selectedEvent) {
+    alert("PLEASE SELECT AN EVENT");
+    return;
+  }
+
+  // Keep the remaining existing code unchanged
+}
+async function generateQRs() {
   if (!selectedEvent) {
     console.error("No event selected");
     setMessage("PLEASE SELECT AN EVENT");

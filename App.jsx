@@ -987,6 +987,7 @@ function App() {
       setAttendees(
         people
       );
+      console.log("ATTENDEE QR DATA:", people);
 
       const total =
         people.length;
@@ -2445,41 +2446,41 @@ function Attendees({
       </button>
 
       <div className="people">
-        {attendees.map(
-          (person) => (
-            <div
-              className="person"
-              key={person.id}
-            >
-              <div>
-                <b>
-                  {person.name}
-                </b>
+       
+{attendees.map((person) => (
+  <div className="person" key={person.id}>
+    <div>
+      <b>{person.name}</b>
+      <small>{person.email}</small>
+    </div>
 
-                <small>
-                  {person.email}
-                </small>
-              </div>
+    <span
+      className={
+        person.status === "Present"
+          ? "person-present"
+          : ""
+      }
+    >
+      {person.status}
+    </span>
 
-              <span
-                className={
-                  person.status ===
-                  "Present"
-                    ? "person-present"
-                    : ""
-                }
-              >
-                {person.status}
-              </span>
+    <span>
+      {person.qrGenerated ? "QR READY" : "PENDING"}
+    </span>
 
-              <span>
-                {person.qrGenerated
-                  ? "QR READY"
-                  : "PENDING"}
-              </span>
-            </div>
-          )
-        )}
+    {person.qrGenerated && person.qrDataUrl && (
+      <div className="person-qr">
+        <img
+          src={person.qrDataUrl}
+          alt={`QR code for ${person.name}`}
+          className="attendee-qr"
+        />
+        <small>Secure Attendance Pass</small>
+      </div>
+    )}
+  </div>
+))}
+        
       </div>
     </div>
   );

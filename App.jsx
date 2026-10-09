@@ -1237,56 +1237,66 @@ function App() {
   }
 
   /* =======================================================
-     QR GENERATION
-  ======================================================= */
+     
+/* =======================================================
+   QR GENERATION
+======================================================= */
 
-  async function generateQRs() {
-    if (!selectedEvent)
-      return;
-
-    setBusy(true);
-
-    try {
-      const response =
-        await fetch(
-          `${API}/api/events/${selectedEvent.id}/generate-qrs`,
-          {
-            method: "POST",
-
-            headers: {
-              ...authHeaders,
-            },
-          }
-        );
-
-      const data =
-        await response.json();
-
-      if (!response.ok) {
-        setMessage(
-          data.message ||
-            "QR GENERATION FAILED"
-        );
-
-        return;
-      }
-
-      setMessage(
-        `${data.generated || 0} SECURE PASSES GENERATED`
-      );
-
-      await loadEventData(
-        selectedEvent
-      );
-    } catch {
-      setMessage(
-        "QR GENERATION FAILED"
-      );
-    } finally {
-      setBusy(false);
-    }
+async function generateQRs() {
+  if (!selectedEvent) {
+    console.error("No event selected");
+    setMessage("PLEASE SELECT AN EVENT");
+    return;
   }
 
+  setBusy(true);
+
+  try {
+    console.log("Selected event:", selectedEvent.id);
+    console.log("API URL:", API);
+
+    const response = await fetch(
+      `${API}/api/events/${selectedEvent.id}/generate-qrs`,
+      {
+        method: "POST",
+        headers: {
+          ...authHeaders,
+        },
+      }
+    );
+
+    console.log("HTTP status:", response.status);
+
+    const data = await response.json();
+
+    console.log("QR generation response:", data);
+
+    if (!response.ok) {
+      setMessage(
+        data.message ||
+        data.error ||
+        `QR GENERATION FAILED (${response.status})`
+      );
+      return;
+    }
+
+    setMessage(
+      `${data.generated ?? 0} SECURE PASSES GENERATED`
+    );
+
+    await loadEventData(selectedEvent);
+
+    console.log("Attendee data reloaded");
+  } catch (error) {
+    console.error("QR generation error:", error);
+
+    setMessage(
+      `QR GENERATION FAILED: ${error.message}`
+    );
+  } finally {
+    setBusy(false);
+  }
+}
   /* =======================================================
      VOLUNTEERS
   ======================================================= */

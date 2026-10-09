@@ -1271,7 +1271,7 @@ function App() {
       }
 
       setMessage(
-        `${data.count || 0} SECURE PASSES GENERATED`
+        `${data.generated || 0} SECURE PASSES GENERATED`
       );
 
       await loadEventData(

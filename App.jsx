@@ -901,10 +901,14 @@ function App() {
     selectFirst = true
   ) {
     try {
-      const response =
-        await fetch(
-          `${API}/api/events`
-        );
+      const response = await fetch(
+        `${API}/api/events`,
+        {
+          headers: {
+            ...authHeaders,
+          },
+        }
+      );
 
       const data =
         await response.json();

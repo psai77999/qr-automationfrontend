@@ -37,7 +37,7 @@ import * as THREE from "three";
 import "./styles.css";
 import "./auth.css";
 
-const API = "http://localhost:5000";
+const API_BASE = "https://qr-automation-s8wg.onrender.com";
 
 /* =========================================================
    THREE.JS CINEMATIC WORLD

@@ -1,0 +1,204 @@
+/* =========================================================
+   ALIET TECHPRENEUR CLUB — CINEMATIC LOGO + MOBILE POLISH
+   Import this after styles.css in App.jsx
+========================================================= */
+
+.auth-logo {
+  position: relative;
+  isolation: isolate;
+  width: clamp(142px, 21vw, 190px);
+  height: clamp(142px, 21vw, 190px);
+  margin: 0 auto 25px;
+  padding: 10px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 190, 28, 0.24);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 194, 36, 0.11), transparent 62%),
+    rgba(255,255,255,0.015);
+  box-shadow: 0 0 0 8px rgba(255,255,255,0.012),
+              0 0 48px rgba(255, 177, 18, 0.08);
+  animation: atcLogoEntrance 1.1s cubic-bezier(.16,1,.3,1) both,
+             atcLogoBreath 4.5s ease-in-out 1.1s infinite;
+}
+
+.auth-logo::before,
+.auth-logo::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border: 1px solid rgba(255, 194, 36, 0.24);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.auth-logo::before {
+  border-top-color: #ffd34f;
+  border-right-color: rgba(255, 57, 47, .65);
+  animation: atcOrbit 7s linear infinite;
+}
+
+.auth-logo::after {
+  inset: -17px;
+  border-color: rgba(255,255,255,.07);
+  border-left-color: rgba(255, 57, 47, .75);
+  animation: atcOrbit 11s linear infinite reverse;
+}
+
+.auth-logo img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 0 5px rgba(255, 190, 24, .35))
+    drop-shadow(0 0 16px rgba(255, 45, 35, .18));
+}
+
+.auth-logo::selection { background: transparent; }
+
+.auth-panel {
+  overflow: visible;
+  border-color: rgba(255,255,255,.11);
+}
+
+.auth-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -1px;
+  right: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff3025, #ffd04a, transparent);
+  background-size: 220% 100%;
+  animation: atcLightSweep 3.8s ease-in-out 1s infinite;
+  pointer-events: none;
+}
+
+.auth-eyebrow {
+  text-align: center;
+  color: rgba(255,255,255,.5);
+}
+
+.auth-panel h1 {
+  text-align: center;
+  letter-spacing: -3px;
+  text-shadow: 0 0 30px rgba(255,48,37,.12);
+}
+
+.auth-panel > p { text-align: center; }
+
+.brand-mark {
+  overflow: hidden;
+  border-radius: 50%;
+  padding: 3px;
+  background: rgba(255,255,255,.96) !important;
+  border-color: rgba(255, 190, 28, .48) !important;
+  box-shadow: 0 0 20px rgba(255, 190, 28, .12) !important;
+  animation: atcBrandGlow 4s ease-in-out infinite;
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+@keyframes atcLogoEntrance {
+  0% { opacity: 0; transform: translateY(22px) scale(.72) rotate(-8deg); filter: blur(7px); }
+  65% { opacity: 1; transform: translateY(-3px) scale(1.035) rotate(1deg); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+@keyframes atcImageReveal {
+  0% { opacity: 0; transform: scale(.78); filter: brightness(0) drop-shadow(0 0 22px #ffd34f); }
+  55% { opacity: 1; filter: brightness(1.6) drop-shadow(0 0 18px #ffd34f); }
+  100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 9px rgba(255,190,24,.18)); }
+}
+@keyframes atcOrbit { to { transform: rotate(360deg); } }
+@keyframes atcLogoBreath {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(255,255,255,.012), 0 0 38px rgba(255,177,18,.07); }
+  50% { box-shadow: 0 0 0 12px rgba(255,255,255,.018), 0 0 58px rgba(255,177,18,.15); }
+}
+@keyframes atcLightSweep {
+  0%, 65%, 100% { background-position: 120% 0; opacity: .35; }
+  78% { background-position: -20% 0; opacity: 1; }
+}
+@keyframes atcBrandGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255,190,28,.08); }
+  50% { box-shadow: 0 0 25px rgba(255,190,28,.22); }
+}
+
+/* Post-login layouts: avoid clipped panels and tiny touch targets */
+.interface { width: min(1450px, 94vw); }
+.workspace { min-width: 0; }
+input, button { max-width: 100%; }
+button, .nav-item, .existing button { touch-action: manipulation; }
+
+@media (max-width: 900px) {
+  .topbar { padding: 0 20px; }
+  .system-status { gap: 7px; font-size: 7px; letter-spacing: 1px; }
+  .user-badge { margin-left: 4px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 48px 4vw; }
+  .hud-card { width: min(300px, 100%); justify-self: center; }
+  .command-shell { grid-template-columns: 1fr; }
+  .sidebar { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .section-label, .security-module { display: none; }
+  .nav-item { width: auto; flex: 1 1 130px; }
+  .nav-item.active::before { left: 0; }
+  .workspace { padding: 22px; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .scanner-command-grid { grid-template-columns: minmax(0, 1fr); }
+  .scanner-frame-shell { min-height: 390px; }
+}
+@media (max-width: 600px) {
+  .auth-screen { padding: 24px 0; min-height: 100svh; }
+  .auth-panel { width: min(430px, calc(100vw - 28px)); padding: 35px 23px 25px; }
+  .auth-logo { width: 132px; height: 132px; margin-bottom: 25px; }
+  .auth-panel h1 { font-size: clamp(43px, 13vw, 58px); letter-spacing: -2.5px; }
+  .auth-footer { font-size: 7px; letter-spacing: 1px; }
+  .topbar { height: auto; min-height: 68px; padding: 12px 14px; align-items: flex-start; gap: 12px; }
+  .brand { gap: 8px; }
+  .brand-mark { width: 34px; height: 34px; flex: 0 0 34px; }
+  .brand strong { font-size: 10px; letter-spacing: .7px; }
+  .brand > div > span { font-size: 6px; letter-spacing: 1px; }
+  .system-status { max-width: 48%; flex-wrap: wrap; justify-content: flex-end; }
+  .system-status > :first-child, .system-status { font-size: 0; }
+  .system-status .status-light { flex: 0 0 6px; }
+  .system-status b { font-size: 7px; }
+  .user-badge { width: 100%; margin: 0; padding: 5px; text-align: right; font-size: 7px; overflow-wrap: anywhere; }
+  .logout-button { font-size: 7px; margin: 0; }
+  .interface { width: 94vw; padding-bottom: 35px; }
+  .hero { min-height: 0; padding: 38px 4px 30px; }
+  .hero h1 { font-size: clamp(42px, 12vw, 62px); letter-spacing: -2.5px; }
+  .hero-copy > p { font-size: 11px; }
+  .hero-buttons > button { flex: 1 1 100%; }
+  .workspace { padding: 15px 11px; }
+  .workspace-header { gap: 12px; flex-wrap: wrap; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric-card { min-height: 105px; padding: 13px; }
+  .metric-card strong { font-size: 27px; }
+  .event-form { grid-template-columns: 1fr; padding: 14px; }
+  .event-form .primary { grid-column: auto; }
+  .person { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .person-qr img { max-width: 100%; height: auto; }
+  .scanner-command-header { align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .scanner-frame-shell { min-height: 320px; }
+  .scanner-target { width: min(230px, 68vw); height: min(230px, 68vw); }
+  .scanner-corner.tl { top: 18px; left: 18px; }
+  .scanner-corner.tr { top: 18px; right: 18px; }
+  .scanner-corner.bl { bottom: 18px; left: 18px; }
+  .scanner-corner.br { bottom: 18px; right: 18px; }
+  .attendance-foot { gap: 10px; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-logo, .auth-logo img, .auth-logo::before, .auth-logo::after,
+  .auth-panel::after, .brand-mark { animation: none !important; }
+  * { scroll-behavior: auto !important; }
+}

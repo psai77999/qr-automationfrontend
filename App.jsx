@@ -648,8 +648,11 @@ function Login({ onLogin }) {
 
       <div className="auth-panel">
         <div className="auth-logo">
-          <QrCode size={32} />
-        </div>
+  <img
+    src="/atc-logo-transparent.png"
+    alt="ALIET Techpreneur Club"
+  />
+</div>
 
         <div className="auth-eyebrow">
           ALIET / TECHPRENEUR CLUB
@@ -1544,7 +1547,12 @@ async function generateQRs() {
       <header className="topbar">
         <div className="brand">
           <div className="brand-mark">
-            <QrCode size={22} />
+            <div className="brand-mark">
+  <img
+    src="/atc-logo-transparent.png"
+    alt="ATC"
+  />
+</div>
           </div>
 
           <div>

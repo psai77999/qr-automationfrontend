@@ -37,6 +37,11 @@ import * as THREE from "three";
 import "./styles.css";
 import "./auth.css";
 
+console.log("QR BACKEND RESPONSE:", data);
+
+setMessage(
+  `${data.generated ?? 0} SECURE PASSES GENERATED`
+);
 const API = "https://qr-automation-s8wg.onrender.com";
 
 /* =========================================================
@@ -1242,20 +1247,9 @@ function App() {
    QR GENERATION
 ======================================================= */
 
-async function generateQRs() {
-  alert("GENERATE FUNCTION CALLED");
-  console.log("GENERATE FUNCTION CALLED");
 
-  if (!selectedEvent) {
-    alert("PLEASE SELECT AN EVENT");
-    return;
-  }
-
-  // Keep the remaining existing code unchanged
-}
 async function generateQRs() {
   if (!selectedEvent) {
-    console.error("No event selected");
     setMessage("PLEASE SELECT AN EVENT");
     return;
   }
@@ -1263,30 +1257,36 @@ async function generateQRs() {
   setBusy(true);
 
   try {
+    const url =
+      `${API.replace(/\/+$/, "")}/api/events/` +
+      `${encodeURIComponent(selectedEvent.id)}/generate-qrs`;
+
+    console.log("Generate QR URL:", url);
     console.log("Selected event:", selectedEvent.id);
-    console.log("API URL:", API);
 
-    const response = await fetch(
-      `${API}/api/events/${selectedEvent.id}/generate-qrs`,
-      {
-        method: "POST",
-        headers: {
-          ...authHeaders,
-        },
-      }
-    );
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        ...authHeaders,
+      },
+    });
 
-    console.log("HTTP status:", response.status);
+    const raw = await response.text();
 
-    const data = await response.json();
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      data = { error: raw || "Server returned an empty response" };
+    }
 
+    console.log("QR generation status:", response.status);
     console.log("QR generation response:", data);
 
     if (!response.ok) {
       setMessage(
-        data.message ||
-        data.error ||
-        `QR GENERATION FAILED (${response.status})`
+        `QR GENERATION FAILED (${response.status}): ` +
+        `${data.message || data.error || "Unknown server error"}`
       );
       return;
     }
@@ -1296,18 +1296,14 @@ async function generateQRs() {
     );
 
     await loadEventData(selectedEvent);
-
-    console.log("Attendee data reloaded");
   } catch (error) {
     console.error("QR generation error:", error);
-
-    setMessage(
-      `QR GENERATION FAILED: ${error.message}`
-    );
+    setMessage(`QR GENERATION FAILED: ${error.message}`);
   } finally {
     setBusy(false);
   }
 }
+
   /* =======================================================
      VOLUNTEERS
   ======================================================= */
@@ -2488,17 +2484,46 @@ function Attendees({
     <span>
       {person.qrGenerated ? "QR READY" : "PENDING"}
     </span>
+    <small>
+  QR status: {String(person.qrGenerated)} |
+  Image data: {person.qrDataUrl ? "Present" : "Missing"}
+</small>
 
-    {person.qrGenerated && person.qrDataUrl && (
-      <div className="person-qr">
-        <img
-          src={person.qrDataUrl}
-          alt={`QR code for ${person.name}`}
-          className="attendee-qr"
-        />
-        <small>Secure Attendance Pass</small>
-      </div>
-    )}
+    
+<div className="person-qr">
+  <small>
+    QR status: {String(person.qrGenerated)}
+  </small>
+
+  {person.qrDataUrl ? (
+    <img
+      src={person.qrDataUrl}
+      alt={`QR code for ${person.name}`}
+      width={180}
+      height={180}
+      style={{
+        display: "block",
+        width: "180px",
+        height: "180px",
+        objectFit: "contain",
+        background: "#ffffff",
+        padding: "8px",
+        border: "2px solid #00ff88",
+      }}
+      onLoad={() =>
+        console.log("QR IMAGE LOADED:", person.name)
+      }
+      onError={() =>
+        console.error("QR IMAGE FAILED:", person.name)
+      }
+    />
+  ) : (
+    <small>QR IMAGE DATA MISSING</small>
+  )}
+
+  <small>Secure Attendance Pass</small>
+</div>
+
   </div>
 ))}
         

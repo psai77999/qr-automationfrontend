@@ -37,11 +37,7 @@ import * as THREE from "three";
 import "./styles.css";
 import "./auth.css";
 
-console.log("QR BACKEND RESPONSE:", data);
 
-setMessage(
-  `${data.generated ?? 0} SECURE PASSES GENERATED`
-);
 const API = "https://qr-automation-s8wg.onrender.com";
 
 /* =========================================================
